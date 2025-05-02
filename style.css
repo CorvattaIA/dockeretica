@@ -1,0 +1,213 @@
+/* style.css - Estilos personalizados para ÉticaIA */
+
+/* Aplicar fuentes de Google */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+h1, h2, h3, h4, h5, h6, .logo, header nav a, footer h3, .chat-header h3 /* Aplicar a título del chat simulado */ {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Desplazamiento suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Estilo para enlace de navegación activo */
+header nav a.active {
+    font-weight: 700;
+    color: #3b82f6; /* Tailwind blue-500 */
+}
+
+/* Estilos adicionales para el cuestionario y resultados */
+.question-card { display: none; }
+.question-card.active { display: block; }
+
+#resultados { display: none; } /* Ocultar resultados inicialmente */
+
+.risk-meter {
+    background-color: #e5e7eb; /* gray-200 */
+    border-radius: 9999px;
+    height: 1.5rem;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.risk-level {
+    height: 100%;
+    background-color: #ef4444; /* red-500 */
+    transition: width 0.5s ease-in-out;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    line-height: 1.5rem; /* Mismo que la altura del meter */
+}
+
+/* Estilos para botones del cuestionario */
+ .option-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.375rem;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+ }
+ .option-btn:hover {
+    background-color: #f3f4f6; /* gray-100 */
+ }
+ .option-btn.selected {
+    background-color: #dbeafe; /* blue-100 */
+    border-color: #3b82f6; /* blue-500 */
+    font-weight: 500;
+ }
+ .navigation-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+ }
+ .btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+ }
+ .btn-primary {
+    background-color: #3b82f6; /* blue-500 */
+    color: white;
+ }
+ .btn-primary:hover {
+    background-color: #2563eb; /* blue-600 */
+ }
+ .btn-outline {
+    border: 1px solid #3b82f6; /* blue-500 */
+    color: #3b82f6; /* blue-500 */
+    background-color: transparent;
+ }
+ .btn-outline:hover {
+    background-color: #eff6ff; /* blue-50 */
+ }
+ /* Estilos específicos para botones outline de colores en Sectores */
+ .sector-card[data-sector="secundario"] .btn-outline { border-color: #10b981; color: #059669; }
+ .sector-card[data-sector="secundario"] .btn-outline:hover { background-color: #d1fae5; }
+ .sector-card[data-sector="terciario"] .btn-outline { border-color: #f59e0b; color: #d97706; }
+ .sector-card[data-sector="terciario"] .btn-outline:hover { background-color: #fef3c7; }
+ .sector-card[data-sector="cuaternario"] .btn-outline { border-color: #8b5cf6; color: #7c3aed; }
+ .sector-card[data-sector="cuaternario"] .btn-outline:hover { background-color: #ede9fe; }
+ .sector-card[data-sector="quinario"] .btn-outline { border-color: #ec4899; color: #db2777; }
+ .sector-card[data-sector="quinario"] .btn-outline:hover { background-color: #fce7f3; }
+
+ .btn-secondary {
+    background-color: #6b7280; /* gray-500 */
+    color: white;
+ }
+  .btn-secondary:hover {
+    background-color: #4b5563; /* gray-600 */
+ }
+  .btn:disabled {
+     opacity: 0.5;
+     cursor: not-allowed;
+  }
+
+/* --- Estilos para el Chat Simulado --- */
+.chat-container {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: 300px; /* Ancho del chat simulado */
+    max-width: 90%;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    z-index: 1000; /* Asegurar que esté sobre otros elementos */
+    transition: all 0.3s ease-in-out;
+}
+.chat-container.closed .chat-messages,
+.chat-container.closed .chat-input {
+    display: none;
+}
+ .chat-container.closed {
+    height: auto; /* Ajustar altura cuando está cerrado */
+ }
+.chat-header {
+    background-color: #1d4ed8; /* blue-700 (Ajustado para mejor contraste) */
+    color: white;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+ .chat-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif; /* Asegurar fuente */
+ }
+ .chat-toggle i {
+    transition: transform 0.3s ease-in-out;
+ }
+ .chat-container.closed .chat-toggle i {
+    transform: rotate(180deg); /* Icono cambia al cerrar */
+ }
+.chat-messages {
+    height: 250px; /* Altura del área de mensajes */
+    overflow-y: auto;
+    padding: 0.75rem;
+    background-color: #f9fafb; /* gray-50 */
+    border-bottom: 1px solid #e5e7eb; /* gray-200 */
+}
+ /* Estilos de ejemplo para mensajes */
+ .message {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    max-width: 85%;
+    word-wrap: break-word;
+    font-size: 0.85rem; /* Tamaño de fuente reducido */
+    line-height: 1.4;
+ }
+ .message.user {
+    background-color: #dbeafe; /* blue-100 */
+    color: #1e3a8a; /* blue-900 */
+    margin-left: auto;
+ }
+ .message.assistant {
+    background-color: #f3f4f6; /* gray-100 */
+    color: #1f2937; /* gray-800 */
+    margin-right: auto;
+ }
+
+.chat-input {
+    display: flex;
+    padding: 0.5rem;
+    border-top: 1px solid #e5e7eb; /* gray-200 */
+}
+.chat-input input {
+    flex-grow: 1;
+    border: 1px solid #d1d5db; /* gray-300 */
+    padding: 0.5rem;
+    border-radius: 0.375rem 0 0 0.375rem;
+    outline: none;
+    font-size: 0.85rem; /* Tamaño de fuente reducido */
+}
+.chat-input button {
+    background-color: #3b82f6; /* blue-500 */
+    color: white;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 0.375rem 0.375rem 0;
+    cursor: pointer;
+}
+ .chat-input button:hover {
+    background-color: #2563eb; /* blue-600 */
+ }
+ .chat-input input::placeholder {
+     color: #6b7280; /* gray-500 */
+     opacity: 1;
+ }
