@@ -297,9 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInputField = document.getElementById('chat-input-field');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
-    // *** IMPORTANTE: REEMPLAZA ESTA URL con la URL real de tu Edge Function desplegada ***
-    // Ejemplo: const EDGE_FUNCTION_URL = 'https://[tu-id-proyecto].supabase.co/functions/v1/abacus-chat-proxy';
-    const EDGE_FUNCTION_URL = 'TU_SUPABASE_EDGE_FUNCTION_URL/abacus-chat-proxy'; // Pega tu URL aquí
+    // *** URL de tu Edge Function Desplegada ***
+    const EDGE_FUNCTION_URL = 'https://dilwyaaktqzvmgfhlsqn.supabase.co/functions/v1/abacus-chat-proxy'; // ¡URL INSERTADA!
 
     if (chatWidget && chatHeader && chatToggleBtn && chatMessages && chatInputField && chatSendBtn) {
         // Evento para abrir/cerrar el chat
@@ -335,10 +334,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const messageText = chatInputField.value.trim();
             if (messageText === '') return; // No enviar mensajes vacíos
 
-            // Verificar si la URL de la función está configurada (evita errores)
-            if (EDGE_FUNCTION_URL === 'TU_SUPABASE_EDGE_FUNCTION_URL/abacus-chat-proxy' || !EDGE_FUNCTION_URL || EDGE_FUNCTION_URL.includes('TU_SUPABASE_EDGE_FUNCTION_URL')) {
-                 console.error("La URL de la Edge Function no está configurada correctamente en script.js. Reemplaza el placeholder.");
-                 addChatMessage("Error: El chat no está configurado correctamente (URL no definida). Contacta al administrador.", "assistant");
+            // Verificar si la URL de la función parece válida (simple verificación)
+            if (!EDGE_FUNCTION_URL || !EDGE_FUNCTION_URL.startsWith('https://')) {
+                 console.error("La URL de la Edge Function no está configurada correctamente en script.js.");
+                 addChatMessage("Error: El chat no está configurado correctamente (URL inválida). Contacta al administrador.", "assistant");
                  return; // Detener ejecución si la URL no es válida
             }
 
@@ -361,8 +360,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: {
                         'Content-Type': 'application/json',
                         // Considera añadir la API Key anónima de Supabase si tu función lo requiere
-                        // 'apikey': 'TU_SUPABASE_ANON_KEY',
-                        // 'Authorization': `Bearer TU_SUPABASE_ANON_KEY`
+                        // 'apikey': 'TU_SUPABASE_ANON_KEY', // Obtener de la configuración de API de tu proyecto Supabase
+                        // 'Authorization': `Bearer TU_SUPABASE_ANON_KEY` // Otra forma común
                     },
                     // Enviar el mensaje del usuario en el cuerpo JSON
                     body: JSON.stringify({ message: messageText /*, sessionId: tu_id_de_sesion_si_lo_usas */ })
@@ -411,6 +410,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } // Fin del if (elementos del chat existen)
 
     // --- Manejo del Formulario de Contacto (con mailto:) ---
-    // No se necesita JS adicional para 'mailto:', el navegador lo gestiona.
+    // No se necesita JS para mailto:, el navegador lo gestiona.
 
 }); // Fin del DOMContentLoaded
+
+
