@@ -297,8 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInputField = document.getElementById('chat-input-field');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
-    // *** URL de tu Edge Function Desplegada ***
-    const EDGE_FUNCTION_URL = 'https://dilwyaaktqzvmgfhlsqn.supabase.co/functions/v1/abacus-chat-proxy'; // ¡URL INSERTADA!
+    // *** URL de tu Edge Function Desplegada (¡INSERTADA!) ***
+    const EDGE_FUNCTION_URL = 'https://dilwyaaktqzvmgfhlsqn.supabase.co/functions/v1/abacus-chat-proxy';
 
     if (chatWidget && chatHeader && chatToggleBtn && chatMessages && chatInputField && chatSendBtn) {
         // Evento para abrir/cerrar el chat
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (messageText === '') return; // No enviar mensajes vacíos
 
             // Verificar si la URL de la función parece válida (simple verificación)
-            if (!EDGE_FUNCTION_URL || !EDGE_FUNCTION_URL.startsWith('https://')) {
+            if (!EDGE_FUNCTION_URL || !EDGE_FUNCTION_URL.startsWith('https://') || EDGE_FUNCTION_URL.includes('TU_SUPABASE_EDGE_FUNCTION_URL')) {
                  console.error("La URL de la Edge Function no está configurada correctamente en script.js.");
                  addChatMessage("Error: El chat no está configurado correctamente (URL inválida). Contacta al administrador.", "assistant");
                  return; // Detener ejecución si la URL no es válida
@@ -413,5 +413,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // No se necesita JS para mailto:, el navegador lo gestiona.
 
 }); // Fin del DOMContentLoaded
-
 
