@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInputField = document.getElementById('chat-input-field');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
-    // *** URL de tu Edge Function Desplegada (¡INSERTADA!) ***
+    // *** URL de tu Edge Function Desplegada (¡CORREGIDA!) ***
     const EDGE_FUNCTION_URL = 'https://dilwyaaktqzvmgfhlsqn.supabase.co/functions/v1/abacus-chat-proxy';
 
     if (chatWidget && chatHeader && chatToggleBtn && chatMessages && chatInputField && chatSendBtn) {
@@ -413,4 +413,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // No se necesita JS para mailto:, el navegador lo gestiona.
 
 }); // Fin del DOMContentLoaded
-
