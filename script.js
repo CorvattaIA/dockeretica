@@ -46,54 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Funciones del Cuestionario ---
 
-    // Muestra la pregunta actual en el contenedor
     function renderQuestion(index) {
         if (!questionnaireContainer || !currentQuestionNumberSpan || index < 0 || index >= questions.length) return;
-
         const question = questions[index];
         currentQuestionIndex = index;
         currentQuestionNumberSpan.textContent = index + 1;
-
-        // Generar HTML para las opciones de respuesta
-        let optionsHtml = question.options.map(option =>
-            `<button class="option-btn" data-value="${option.value}">${option.text}</button>`
-        ).join('');
-
-        // Generar HTML para los botones de navegación (Anterior/Siguiente/Finalizar)
+        let optionsHtml = question.options.map(option => `<button class="option-btn" data-value="${option.value}">${option.text}</button>`).join('');
         let navigationHtml;
-        if (index === questions.length - 1) { // Última pregunta
-            navigationHtml = `
-                <div class="navigation-buttons">
-                    <button class="btn btn-secondary prev-btn" ${index === 0 ? 'disabled' : ''}>Anterior</button>
-                    <button class="btn btn-primary finish-btn" ${!answers[question.id] ? 'disabled' : ''}>Finalizar</button>
-                </div>`;
-        } else { // Preguntas intermedias
-            navigationHtml = `
-                <div class="navigation-buttons">
-                    <button class="btn btn-secondary prev-btn" ${index === 0 ? 'disabled' : ''}>Anterior</button>
-                    <button class="btn btn-primary next-btn" ${!answers[question.id] ? 'disabled' : ''}>Siguiente</button>
-                </div>`;
+        if (index === questions.length - 1) {
+            navigationHtml = `<div class="navigation-buttons"><button class="btn btn-secondary prev-btn" ${index === 0 ? 'disabled' : ''}>Anterior</button><button class="btn btn-primary finish-btn" ${!answers[question.id] ? 'disabled' : ''}>Finalizar</button></div>`;
+        } else {
+            navigationHtml = `<div class="navigation-buttons"><button class="btn btn-secondary prev-btn" ${index === 0 ? 'disabled' : ''}>Anterior</button><button class="btn btn-primary next-btn" ${!answers[question.id] ? 'disabled' : ''}>Siguiente</button></div>`;
         }
-
-        // Actualizar el contenido HTML del contenedor del cuestionario
-        questionnaireContainer.innerHTML = `
-            <div class="question-card active" data-question="${question.id}">
-                <h3 class="text-xl font-semibold mb-6">${question.text}</h3>
-                <div class="options-container">${optionsHtml}</div>
-                ${navigationHtml}
-            </div>`;
-
-        // Resaltar la opción previamente seleccionada si existe
+        questionnaireContainer.innerHTML = `<div class="question-card active" data-question="${question.id}"><h3 class="text-xl font-semibold mb-6">${question.text}</h3><div class="options-container">${optionsHtml}</div>${navigationHtml}</div>`;
         if (answers[question.id]) {
             const selectedBtn = questionnaireContainer.querySelector(`.option-btn[data-value="${answers[question.id]}"]`);
             if (selectedBtn) selectedBtn.classList.add('selected');
         }
-
-        // Añadir listeners a los botones recién creados
         addQuestionListeners();
     }
-
-    // Añade los event listeners a los botones de opción y navegación
     function addQuestionListeners() {
         if (!questionnaireContainer) return;
         questionnaireContainer.querySelectorAll('.option-btn').forEach(btn => btn.addEventListener('click', handleOptionSelect));
@@ -104,52 +75,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prevBtn) prevBtn.addEventListener('click', handlePrevQuestion);
         if (finishBtn) finishBtn.addEventListener('click', handleFinishQuestionnaire);
     }
-
-    // Maneja la selección de una opción de respuesta
     function handleOptionSelect(event) {
         const selectedValue = event.target.dataset.value;
         const questionId = questions[currentQuestionIndex].id;
-        answers[questionId] = parseInt(selectedValue); // Guardar respuesta
-
-        // Actualizar estilos de botones
+        answers[questionId] = parseInt(selectedValue);
         if (!questionnaireContainer) return;
         questionnaireContainer.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
         event.target.classList.add('selected');
-
-        // Habilitar botón de Siguiente/Finalizar
         const nextBtn = questionnaireContainer.querySelector('.next-btn');
         const finishBtn = questionnaireContainer.querySelector('.finish-btn');
         if (nextBtn) nextBtn.disabled = false;
         if (finishBtn) finishBtn.disabled = false;
     }
-
-    // Navega a la siguiente pregunta
-    function handleNextQuestion() {
-        if (currentQuestionIndex < questions.length - 1) {
-            renderQuestion(currentQuestionIndex + 1);
-        }
-    }
-
-    // Navega a la pregunta anterior
-     function handlePrevQuestion() {
-        if (currentQuestionIndex > 0) {
-            renderQuestion(currentQuestionIndex - 1);
-        }
-    }
-
-    // Finaliza el cuestionario, calcula y muestra resultados
+    function handleNextQuestion() { if (currentQuestionIndex < questions.length - 1) renderQuestion(currentQuestionIndex + 1); }
+    function handlePrevQuestion() { if (currentQuestionIndex > 0) renderQuestion(currentQuestionIndex - 1); }
     function handleFinishQuestionnaire() {
         const riskScore = calculateScore('risk');
         const opportunityScore = calculateScore('opportunity');
         displayResults(riskScore, opportunityScore);
         if (evaluationSection) evaluationSection.classList.add('hidden');
-        if (resultsSection) {
-            resultsSection.style.display = 'block';
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (resultsSection) { resultsSection.style.display = 'block'; resultsSection.scrollIntoView({ behavior: 'smooth' }); }
     }
-
-    // Calcula el puntaje normalizado (0-100) para un tipo ('risk' u 'opportunity')
     function calculateScore(type) {
         let totalScore = 0, count = 0;
         questions.forEach(q => { if (q.type === type && answers[q.id]) { totalScore += answers[q.id]; count++; } });
@@ -158,8 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const percentage = ((totalScore - minPossible) / (maxPossible - minPossible)) * 100;
         return Math.round(percentage);
     }
-
-    // Muestra los puntajes y las recomendaciones
     function displayResults(riskScore, opportunityScore) {
         if (!riskLevelBar || !opportunityLevelBar || !riskLevelLabel || !opportunityLevelLabel) return;
         riskLevelBar.style.width = `${riskScore}%`;
@@ -168,26 +112,19 @@ document.addEventListener('DOMContentLoaded', () => {
         opportunityLevelLabel.textContent = getLevelLabel(opportunityScore);
         renderRecommendedServices(riskScore, opportunityScore);
     }
-
-    // Devuelve una etiqueta textual para el nivel de puntaje
-     function getLevelLabel(score) {
+    function getLevelLabel(score) {
         if (score < 25) return `Bajo (${score}%)`; if (score < 50) return `Moderado (${score}%)`; if (score < 75) return `Alto (${score}%)`; return `Muy Alto (${score}%)`;
     }
-
-    // Muestra los servicios recomendados basados en los puntajes
     function renderRecommendedServices(riskScore, opportunityScore) {
         if (!recommendedServicesContainer) return;
         recommendedServicesContainer.innerHTML = '';
         let recommended = [];
-        // Lógica de recomendación
         if (riskScore >= 75) { recommended.push(allServices.find(s => s.id === 'anal')); recommended.push(allServices.find(s => s.id === 'diag')); }
         else if (riskScore >= 50) { recommended.push(allServices.find(s => s.id === 'diag')); recommended.push(allServices.find(s => s.id === 'estr')); }
         else if (riskScore >= 25) { recommended.push(allServices.find(s => s.id === 'estr')); }
         if (opportunityScore >= 50) { if (!recommended.some(s => s && s.id === 'estr')) recommended.push(allServices.find(s => s.id === 'estr')); }
         if (riskScore >= 25 || opportunityScore >= 50) { if (!recommended.some(s => s && s.id === 'capa')) recommended.push(allServices.find(s => s.id === 'capa')); }
-        recommended = [...new Set(recommended.filter(s => s))]; // Filtrar y eliminar duplicados
-
-        // Mostrar mensaje si no hay recomendaciones o renderizar las tarjetas
+        recommended = [...new Set(recommended.filter(s => s))];
         if (recommended.length === 0) {
              recommendedServicesContainer.innerHTML = '<p class="text-gray-600 md:col-span-2 lg:col-span-3 text-center">No se requieren servicios específicos basados en esta evaluación inicial, pero siempre recomendamos buenas prácticas.</p>';
              return;
@@ -335,11 +272,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (messageText === '') return; // No enviar mensajes vacíos
 
             // Verificar si la URL de la función parece válida (simple verificación)
-            if (!EDGE_FUNCTION_URL || !EDGE_FUNCTION_URL.startsWith('https://') || EDGE_FUNCTION_URL.includes('TU_SUPABASE_EDGE_FUNCTION_URL')) {
+             if (!EDGE_FUNCTION_URL || !EDGE_FUNCTION_URL.startsWith('https://') || EDGE_FUNCTION_URL.includes('TU_SUPABASE_EDGE_FUNCTION_URL')) {
                  console.error("La URL de la Edge Function no está configurada correctamente en script.js.");
                  addChatMessage("Error: El chat no está configurado correctamente (URL inválida). Contacta al administrador.", "assistant");
                  return; // Detener ejecución si la URL no es válida
             }
+
 
             addChatMessage(messageText, 'user'); // Mostrar mensaje del usuario
             chatInputField.value = ''; // Limpiar campo de entrada
