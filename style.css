@@ -211,3 +211,28 @@ header nav a.active {
      color: #6b7280; /* gray-500 */
      opacity: 1;
  }
+
+/* --- Estilos para intentar mejorar N8N Chat (Comentados) --- */
+/* Descomentar si vuelves a usar N8N Chat y necesitas ajustar */
+/*
+:root {
+    --n8n-chat-width: 400px;
+    --n8n-chat-height: 500px;
+    --n8n-chat-font-size: 0.95rem;
+    --n8n-chat-primary-color: #1d4ed8;
+    --n8n-chat-user-message-bg: #dbeafe;
+    --n8n-chat-user-message-color: #1e3a8a;
+    --n8n-chat-agent-message-bg: #f3f4f6;
+    --n8n-chat-agent-message-color: #1f2937;
+}
+#n8n-chat { z-index: 1000 !important; }
+.n8n-chat-widget, .n8n-chat-widget input, .n8n-chat-widget textarea, .n8n-chat-widget button { font-family: 'Roboto', sans-serif !important; font-size: var(--n8n-chat-font-size) !important; }
+.n8n-chat-header h3, .n8n-chat-welcome-screen h1, .n8n-chat-welcome-screen button { font-family: 'Montserrat', sans-serif !important; }
+.n8n-chat-message-text { font-size: 0.85rem !important; line-height: 1.4 !important; }
+.n8n-chat-input-textarea { font-size: 0.85rem !important; }
+.n8n-chat-message-bubble.user { background-color: var(--n8n-chat-user-message-bg) !important; color: var(--n8n-chat-user-message-color) !important; }
+.n8n-chat-message-bubble.agent { background-color: var(--n8n-chat-agent-message-bg) !important; color: var(--n8n-chat-agent-message-color) !important; }
+.n8n-chat-header { background-color: var(--n8n-chat-primary-color) !important; }
+.n8n-chat-header h3 { font-weight: 600 !important; }
+.n8n-chat-input-textarea::placeholder { color: #6b7280 !important; opacity: 1; }
+*/
